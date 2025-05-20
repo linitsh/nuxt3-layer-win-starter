@@ -68,4 +68,10 @@ bun run dev
 
 - [docs](docs/README.md)
 
+- [scoop](https://scoop.sh/)
+
+- [taskfile](https://taskfile.dev)
+
+- [nuxt](https://nuxt.com/)
+
 ---
