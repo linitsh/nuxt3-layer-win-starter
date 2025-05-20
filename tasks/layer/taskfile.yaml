@@ -1,0 +1,29 @@
+# yaml-language-server: $schema=https://json.schemastore.org/taskfile.json
+version: '3'
+tasks:
+  default: echo "$(cat '{{.TASKFILE}}')"
+
+  create-*:
+    desc  : 'create layer by name'
+    dir   : '{{.TASKFILE_DIR}}'
+    silent: true
+    ignore_error: true
+    requires: 
+      vars: [PROJECT_NAME]
+    vars:
+      NAME: '{{ index .MATCH 0 }}'
+    prompt: '🟡 layer name is {{.NAME}} ?'
+    cmds:
+    - rm -rf ../../{{.PROJECT_NAME}}/layers/{{.NAME}}
+    - bun template.js -- '{{.NAME}}' '{{.TASKFILE_DIR}}'
+    - mkdir -p ../../{{.PROJECT_NAME}}/layers
+    - mv -v {{.NAME}} ../../{{.PROJECT_NAME}}/layers/
+    - rm -rf {{.NAME}}
+    - echo "🟢 layer '{{.NAME}}' created"
+    - echo "🟢 Run layer '{{.NAME}}'"
+    - cd ../../{{.PROJECT_NAME}}/layers/{{.NAME}} && bun run dev
+
+  temp:
+    desc: ''
+    cmds:
+    - npm create nuxt -- --template layer nuxt-layer

@@ -1,0 +1,25 @@
+# yaml-language-server: $schema=https://json.schemastore.org/taskfile.json
+version: '3'
+dotenv:
+  - dot.env
+includes:
+  soft:
+    taskfile: tasks/soft.yaml
+  nuxt:
+    taskfile: tasks/nuxt.yaml
+  layer:
+    taskfile: tasks/layer
+
+tasks:
+  default: task -a | grep '{{.CLI_ARGS}}' | awk '{ print $2 }' | sed 's/.$//' | sed 's/^/task /' # > tasks.md
+  x:
+    desc: ''
+    cmds:
+    # - task: soft:x
+    - task: nuxt:x
+    - task: layer:create-test
+
+  z:
+    desc: ''
+    cmds:
+    - task: nuxt:z

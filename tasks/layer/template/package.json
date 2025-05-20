@@ -1,0 +1,13 @@
+{
+  "name": "{{.NAME}}-layer",
+  "type": "module",
+  "version": "0.0.1",
+  "main": "./nuxt.config.ts",
+  "scripts": {
+    "dev"        : "nuxi dev ."   ,
+    "dev:prepare": "nuxt prepare" ,
+    "build"      : "nuxt build"   ,
+    "generate"   : "nuxt generate",
+    "preview"    : "nuxt preview"
+  }
+}

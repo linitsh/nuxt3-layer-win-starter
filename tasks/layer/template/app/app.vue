@@ -1,0 +1,3 @@
+<template>
+  <{{.NAME}}:Test/>
+</template>

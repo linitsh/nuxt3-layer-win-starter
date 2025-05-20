@@ -1,0 +1,28 @@
+# yaml-language-server: $schema=https://json.schemastore.org/taskfile.json
+version: '3'
+tasks:
+  default: echo "$(cat '{{.TASKFILE}}')"
+  
+  nvm:
+    desc: ''
+    cmds:
+    - nvm install lts
+    - nvm use     lts
+
+  scoop:
+    desc: ''
+    cmds:
+    - scoop update
+    - scoop install bun
+    - scoop update  --all
+    - scoop cleanup --all 
+  x:
+    desc: ''
+    cmds:
+    - task: nvm
+    - task: scoop
+  
+  z:
+    desc: ''
+    cmds:
+    - echo "not implemented"
