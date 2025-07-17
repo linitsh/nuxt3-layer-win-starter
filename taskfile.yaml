@@ -1,7 +1,8 @@
 # yaml-language-server: $schema=https://json.schemastore.org/taskfile.json
 version: '3'
-dotenv:
-  - dot.env
+vars:
+  PROJECT_NAME: src
+  SRC_DIR     : app
 includes:
   soft:
     taskfile: tasks/soft.yaml
@@ -9,6 +10,8 @@ includes:
     taskfile: tasks/nuxt.yaml
   layer:
     taskfile: tasks/layer
+  build:
+    taskfile: tasks/build.yaml
 
 tasks:
   default: task -a | grep '{{.CLI_ARGS}}' | awk '{ print $2 }' | sed 's/.$//' | sed 's/^/task /' # > tasks.md
@@ -23,3 +26,4 @@ tasks:
     desc: ''
     cmds:
     - task: nuxt:z
+

@@ -1,0 +1,19 @@
+# yaml-language-server: $schema=https://json.schemastore.org/taskfile.json
+version: '3'
+tasks:
+  
+  build:
+    desc: ''
+    dir: '{{.ROOT_DIR}}/src'
+    cmds:
+    - bun run build
+    - task: install
+  
+  install:
+    desc: ''
+    internal: true
+    dir : '{{.ROOT_DIR}}/src/.output/server'
+    cmds:
+    - rm -rf node_modules
+    - bun install
+    - bun build --target=bun --outfile ./nuxt.mjs ./index.mjs
