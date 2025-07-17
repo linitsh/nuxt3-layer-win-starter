@@ -22,12 +22,15 @@ categories: [nuxt, vuejs, bun, nodejs, js, ts, template]
     - `task` (aka taskfile - lern if you dont know for understand this project)
     - `bun`
 
-3. change `dot.env` variables (defaults is ok)
+3. change `packages.txt` (commentted will be ignored)
 
-4. change `packages.txt` (commentted will be ignored)
-
-5. change the `taskfile.yaml` `x` task
+4. change the `taskfile.yaml` `x` task ad vars if need
 ```yaml
+vars:
+  PROJECT_NAME: src
+  SRC_DIR     : app
+
+tasks:
   x:
     desc: ''
     cmds:
@@ -36,7 +39,7 @@ categories: [nuxt, vuejs, bun, nodejs, js, ts, template]
     - task: layer:create-test
 ```
 
-6. run:
+5. run:
 ```shell
 # install like standart nuxt project
 task x
@@ -45,7 +48,7 @@ Ctrl + C
 cd <PROJECT_NAME>
 ```
 
-7. change `nuxt.config.ts`
+1. change `nuxt.config.ts`
 ```ts
 import config from "./config/extend.nuxt.config" // auto added from install
 // https://nuxt.com/docs/api/configuration/nuxt-config
@@ -59,7 +62,7 @@ export default defineNuxtConfig({
 })
 ```
 
-8. run:
+1. run:
 ```shell
 bun run dev
 ```

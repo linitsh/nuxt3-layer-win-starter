@@ -53,7 +53,18 @@ tasks:
         ],
         pinia: {
           storesDirs: ['stores/**']
-        },
+        },  
+        nitro: {
+          preset: "bun",
+          node: true,
+          inlineDynamicImports: true,
+          serveStatic: "inline",
+          esbuild: {
+            options: {
+              target: "esnext",
+            },
+          },
+        }
       }" > config/extend.nuxt.config.ts
     - echo 'import config from "./config/extend.nuxt.config"' | cat - nuxt.config.ts > temp && mv temp nuxt.config.ts
 
