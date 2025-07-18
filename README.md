@@ -9,8 +9,13 @@ categories: [nuxt, vuejs, bun, nodejs, js, ts, template]
 > [!WARNING]
 > under construction  
 > not ready for use yet  
-> ready on 86%  
-> its for win
+> ready on 89%  
+> its for win (scoop / bun compiled build)
+___
+### Description
+
+- this is template for create nuxt 3 app with nuxt layers pattern  
+- can be bundled with bun to standalone bin.exe file (see `tasks/build.yaml`)
 
 ---
 ### install
@@ -24,7 +29,7 @@ categories: [nuxt, vuejs, bun, nodejs, js, ts, template]
 
 3. change `packages.txt` (commentted will be ignored)
 
-4. change the `taskfile.yaml` `x` task ad vars if need
+4. change the `taskfile.yaml` `x` task - and vars if need
 ```yaml
 vars:
   PROJECT_NAME: src
@@ -48,24 +53,29 @@ Ctrl + C
 cd <PROJECT_NAME>
 ```
 
-1. change `nuxt.config.ts`
+6. change `nuxt.config.ts`
 ```ts
 import config from "./config/extend.nuxt.config" // auto added from install
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-  compatibilityDate: '2025-05-15',
+  compatibilityDate: '20XX-XX-XX',
   devtools: { enabled: true },
   ...config,          // <- here
   modules: [
-    ...config.modules // <- here
+    ...config.modules // <- and here
   ]
 })
 ```
 
-1. run:
+7. run:
 ```shell
 bun run dev
 ```
+___
+### TO-DO
+
+- more simplify and testing...
+
 ---
 ### refs
 
