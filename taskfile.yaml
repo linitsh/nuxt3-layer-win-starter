@@ -20,7 +20,7 @@ tasks:
     cmds:
     # - task: soft:x
     - task: nuxt:x
-    - task: layer:create-test
+    - task: layer:create:test
 
   z:
     desc: ''

@@ -5,145 +5,54 @@ tasks:
   
   init:
     desc: 'create standart nuxt app'
-    internal: true
-    requires: 
-      vars: [PROJECT_NAME]
+    internal: false
     cmds:
-    - bun create nuxt {{.PROJECT_NAME}}
+    - bun --bun create nuxt src
 
   upgrade:
     desc: 'install and update'
-    internal: true
-    requires: 
-      vars: [PROJECT_NAME]
-    dir : '{{.TASKFILE_DIR}}/../{{.PROJECT_NAME}}'
+    internal: false
+    dir : '{{.TASKFILE_DIR}}/../src'
     cmds:
-    # - bun x nuxi@latest upgrade
-    - bun install
-    - bun update --latest
+    - bunx --bun nuxi@latest upgrade
+    - bun  --bun install
+    - bun  --bun update --latest
+
+  folders:
+    desc: 'create folders'
+    internal: false
+    dir : '{{.TASKFILE_DIR}}'
+    cmds:
+    - cp -r ./folders/* ./../src
 
   install-modules:
     desc: 'install modules'
     internal: false
-    requires: 
-      vars: [PROJECT_NAME]
-    dir : '{{.TASKFILE_DIR}}/../{{.PROJECT_NAME}}'
-    vars:
-      PACKAGES:
-        sh: cat "$(pwd)/packages.txt" | grep -o '^[^#]*' | tr '\n' ' '
+    dir : '{{.TASKFILE_DIR}}/../src'
     cmds:
-    - echo '{{.PACKAGES}}'
-    - bun add {{.PACKAGES}}
-    - bun update --latest
+    - bunx --bun nuxi@latest module add pinia
+    - bunx --bun nuxi@latest module add vueuse
+    - bun  --bun update --latest
 
-  nuxt-cfg:
-    desc: 'create config/extend.nuxt.config.ts for extend main config'
-    internal: true
-    requires: 
-      vars: [PROJECT_NAME, SRC_DIR]
-    dir : '{{.TASKFILE_DIR}}/../{{.PROJECT_NAME}}'
+  config:
+    desc: 'create folders'
+    internal: false
+    dir : '{{.TASKFILE_DIR}}/../src'
     cmds:
-    - mkdir config
-    - |
-      echo "export default {
-        srcDir : '{{.SRC_DIR}}/',
-        // watch  : ['./src/{{.SRC_DIR}}/**/*.mjs'],
-        modules: [
-          '@pinia/nuxt',
-        ],
-        pinia: {
-          storesDirs: ['stores/**']
-        },  
-        nitro: {
-          preset: "bun",
-          node: true,
-          inlineDynamicImports: true,
-          serveStatic: "inline",
-          esbuild: {
-            options: {
-              target: "esnext",
-            },
-          },
-        }
-      }" > config/extend.nuxt.config.ts
-    - echo 'import config from "./config/extend.nuxt.config"' | cat - nuxt.config.ts > temp && mv temp nuxt.config.ts
-
-  mv-existing-folders:
-    desc: 'move existing files to srcDir'
-    ignore_error: true
-    internal    : true
-    requires: 
-      vars: [PROJECT_NAME, SRC_DIR]
-    dir : '{{.TASKFILE_DIR}}/../{{.PROJECT_NAME}}'
-    vars:
-      EXIST:
-      - public
-      - server
-      - app.vue
-    cmds:
-    - mkdir -p   {{.SRC_DIR}}
-    - for:
-        var: EXIST
-      cmd : mv {{.ITEM}} {{.SRC_DIR}}
-
-  mk-standart-nuxt-folders:
-    desc: 'create folders structure'
-    internal    : true
-    ignore_error: true
-    requires: 
-      vars: [PROJECT_NAME, SRC_DIR]
-    dir : '{{.TASKFILE_DIR}}/../{{.PROJECT_NAME}}'
-    vars:
-      DIRS:
-      - assets
-      - components
-      - composables
-      - content
-      - layouts
-      - middleware
-      - modules
-      - pages
-      - plugins
-      - shared
-      - utils
-      - parts
-      - stores
-      - server/api
-      - server/routes
-      - server/middleware
-      - server/utils
-    cmds:
-    - for:
-        var: DIRS
-      cmd : mkdir -p {{.SRC_DIR}}/{{.ITEM}}
-  
-  mk-shared-lib:
-    desc: 'create srared lib dir for layers and the main app'
-    internal    : true
-    ignore_error: true
-    requires: 
-      vars: [PROJECT_NAME]
-    dir : '{{.TASKFILE_DIR}}/../{{.PROJECT_NAME}}'
-    cmds:
-    - mkdir -p lib
-    - touch lib/index.ts
-    - echo "export const test = 'test from shared lib'" > lib/index.ts
+    - mv config/nuxt.config.mjs nuxt.config.ts
+    - rm -rf config
   
   x:
     desc: 'exec all'
     cmds:
     - task: init
     - task: upgrade
+    - task: folders
     - task: install-modules
-    - task: nuxt-cfg
-    - task: mk-shared-lib
-    - task: mv-existing-folders
-    - task: mk-standart-nuxt-folders
+    - task: config
 
   z:
     desc: 'delete the created project'
-    requires: 
-      vars: [PROJECT_NAME]
     dir : '{{.TASKFILE_DIR}}/..'
     cmds:
-    - rm -rf  {{.PROJECT_NAME}}
+    - rm -rf  src

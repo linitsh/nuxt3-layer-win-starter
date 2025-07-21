@@ -1,0 +1,3 @@
+<template>
+    <WsChat/>
+</template>

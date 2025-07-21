@@ -1,3 +1,0 @@
-@pinia/nuxt
-pinia
-# zod

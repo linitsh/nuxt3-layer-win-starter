@@ -6,6 +6,7 @@
             <template v-for="page in getPages">
                 <NuxtLink :to="page.path">{{ page.name }}</NuxtLink>
             </template>
+            <NuxtLink to="/">Home</NuxtLink>
         </nav>
         <hr>
     </div>
@@ -14,10 +15,10 @@
 <script setup lang="ts">
 
 const router = useRouter()
-const getPages = router.getRoutes().map(route => {
-    let name = route.name == 'index' ? 'home' : route.name
+
+const getPages = router.getRoutes().filter(route => route.name != 'index').map(route => {
     return {
-        name,
+        name: route.name,
         path: route.path
     }
 })

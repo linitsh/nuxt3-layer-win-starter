@@ -1,0 +1,1 @@
+export const test = 'test from shared lib'

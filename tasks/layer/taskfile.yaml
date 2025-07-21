@@ -3,7 +3,7 @@ version: '3'
 tasks:
   default: echo "$(cat '{{.TASKFILE}}')"
 
-  create-*:
+  create:*:
     desc  : 'create layer by name'
     dir   : '{{.TASKFILE_DIR}}'
     silent: true
